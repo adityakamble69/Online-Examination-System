@@ -237,9 +237,9 @@
         <!-- Student Login -->
         <div id="studentLogin" class="hidden">
             <h2>Student Login</h2>
-            <input type="text" placeholder="Student ID">
-            <input type="password" placeholder="Password">
-            <button onclick="startExam()">Login & Start Exam</button>
+            <input type="text" id="studentId" placeholder="Student ID">
+            <input type="password" id="studentPass" placeholder="Password">
+            <button onclick="studentLogin()">Login</button>
             <button onclick="goBack()">Back</button>
         </div>
 
@@ -248,32 +248,8 @@
             <h2>Admin Login</h2>
             <input type="text" id="adminId" placeholder="Admin ID">
             <input type="password" id="adminPass" placeholder="Password">
-            <button onclick="openAdminDashboard()">Login</button>
+            <button onclick="adminLogin()">Login</button>
             <button onclick="goBack()">Back</button>
-        </div>
-
-        <!-- Exam Section -->
-        <div id="examSection" class="hidden">
-            <div class="timer">Time Left: <span id="time">60</span> sec</div>
-
-            <div class="card">
-                <h3>Q1. HTML Full Form?</h3>
-                <div class="option"><input type="radio" name="q1"> Hyper Text Markup Language</div>
-                <div class="option"><input type="radio" name="q1"> High Text Machine Language</div>
-                <div class="option"><input type="radio" name="q1"> Home Tool Markup Language</div>
-                <div class="option"><input type="radio" name="q1"> None</div>
-            </div>
-
-            <button onclick="submitExam()">Submit Exam</button>
-        </div>
-
-        <!-- Result Section -->
-        <div id="resultSection" class="hidden">
-            <h2>Exam Result</h2>
-            <p>Score: 8 / 10</p>
-            <p>Status: ✅ Pass</p>
-            <button>Download Certificate</button>
-            <button onclick="location.reload()">Logout</button>
         </div>
 
 
@@ -296,49 +272,13 @@
             document.getElementById("roleSelection").classList.remove("hidden");
         }
 
-        function startExam() {
-            hideAll();
-            document.getElementById("examSection").classList.remove("hidden");
-            startTimer();
-        }
-
-        function submitExam() {
-            hideAll();
-            document.getElementById("resultSection").classList.remove("hidden");
-        }
-
-        function openAdminDashboard() {
-            const id = document.getElementById("adminId").value;
-            const pass = document.getElementById("adminPass").value;
-
-            if (id === "admin" && pass === "1234") {
-                window.location.href = "admin.html";
-            } else {
-                alert("Invalid Admin Credentials");
-            }
-        }
-
         function hideAll() {
             document.getElementById("roleSelection").classList.add("hidden");
             document.getElementById("studentLogin").classList.add("hidden");
             document.getElementById("adminLogin").classList.add("hidden");
-            document.getElementById("examSection").classList.add("hidden");
-            document.getElementById("resultSection").classList.add("hidden");
         }
-        function startTimer() {
-            let timeLeft = 60;
-            const timer = setInterval(() => {
-                timeLeft--;
-                document.getElementById("time").innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    submitExam();
-                }
-            }, 1000);
-        }
-
     </script>
-
+    <script src="script.js"></script>
 </body>
 
 </html>
