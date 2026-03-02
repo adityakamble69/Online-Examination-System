@@ -89,7 +89,12 @@ async function adminLogin() {
       }),
     });
 
-    const data = await response.json();
+    console.log("Response status:", response.status);
+
+    const text = await response.text();
+    console.log("Raw response:", text);
+
+    const data = JSON.parse(text);
 
     if (data.status === "success") {
       sessionStorage.setItem("admin", id);
@@ -97,13 +102,16 @@ async function adminLogin() {
     } else {
       alert("Invalid Admin Credentials");
     }
+
   } catch (error) {
-    alert("Server Error");
+    console.error("FULL ERROR:", error);
+    alert("Server Error: " + error.message);
   }
 
   loader.classList.add("hidden");
 }
 
+//Create student Function
 async function createStudent() {
   const name = document.getElementById("newStudentName").value;
   const email = document.getElementById("newStudentEmail").value;
