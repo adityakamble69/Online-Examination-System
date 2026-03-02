@@ -1,4 +1,4 @@
-const API_URL ="https://script.google.com/macros/s/AKfycbyCSTK-Tp8tVLj7_QTQXXFVHtNqlwQWB_TOLXHiWcyLtsfrJbIoF8Zsz4pPf9KlO9xzAg/exec";
+const API_URL ="https://script.google.com/macros/s/AKfycby-h-rO-pODL9yR_h-wBVIDsVvpxSCxnrIpM0hnS8vIa-0X7fAQdPddOziW5sVX4-ycUg/exec";
 
 //Student Login Function
 async function studentLogin() {
