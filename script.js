@@ -169,3 +169,37 @@ function logout() {
   sessionStorage.clear();
   window.location.href = "index.html";
 }
+
+
+async function setPasswordDirect() {
+
+  const id = document.getElementById("studentIdInput").value;
+  const newPass = document.getElementById("newPass").value;
+
+  if (id === "" || newPass === "") {
+    alert("Enter all details");
+    return;
+  }
+
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8",
+    },
+    body: JSON.stringify({
+      action: "setPassword",
+      id: id,
+      password: newPass,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (data.status === "success") {
+    alert("Password Set Successfully!");
+    window.location.href = "index.html";
+
+  } else {
+    alert(data.message || "Invalid Student ID");
+  }
+}

@@ -269,6 +269,7 @@
         <div id="roleSelection">
             <button onclick="showStudent()">Student / Candidate</button>
             <button onclick="showAdmin()">Admin / Examiner</button>
+            <button onclick="goToSetPassword()">Set Password</button>
         </div>
 
         <!-- Student Login -->
@@ -305,6 +306,10 @@
         function showAdmin() {
             hideAll();
             document.getElementById("adminLogin").classList.remove("hidden");
+        }
+
+        function goToSetPassword() {
+            window.location.href = "setpassword.html";
         }
 
         function goBack() {
