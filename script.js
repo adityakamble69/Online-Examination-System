@@ -1,4 +1,4 @@
-const API_URL ="https://script.google.com/macros/s/AKfycby-h-rO-pODL9yR_h-wBVIDsVvpxSCxnrIpM0hnS8vIa-0X7fAQdPddOziW5sVX4-ycUg/exec";
+const API_URL ="https://script.google.com/macros/s/AKfycbz9qovY0VLoENB3dSlBNSjuv5yuUwk6UegB9zLGv65kfg7TGzlusCAcVTFduENydDY/exec";
 
 //Student Login Function
 async function studentLogin() {
@@ -25,11 +25,16 @@ async function studentLogin() {
   const data = await response.json();
 
   if (data.status === "success") {
-    sessionStorage.setItem("student", id);
-    window.location.href = "student.html";
-  } else {
-    alert("Invalid credentials");
-  }
+  sessionStorage.setItem("student", id);
+  window.location.href = "student.html";
+
+} else if (data.status === "new") {
+  sessionStorage.setItem("tempStudent", id);
+  window.location.href = "setpassword.html";
+
+} else {
+  alert("Invalid credentials");
+}
 }
 
 //Student Set Password Function
@@ -74,7 +79,7 @@ async function adminLogin() {
     return;
   }
 
-  loader.classList.remove("hidden");
+  if (loader) loader.classList.remove("hidden");
 
   try {
     const response = await fetch(API_URL, {
@@ -89,11 +94,7 @@ async function adminLogin() {
       }),
     });
 
-    console.log("Response status:", response.status);
-
     const text = await response.text();
-    console.log("Raw response:", text);
-
     const data = JSON.parse(text);
 
     if (data.status === "success") {
@@ -108,34 +109,63 @@ async function adminLogin() {
     alert("Server Error: " + error.message);
   }
 
-  loader.classList.add("hidden");
+  if (loader) loader.classList.add("hidden");
 }
 
 //Create student Function
 async function createStudent() {
+
   const name = document.getElementById("newStudentName").value;
   const email = document.getElementById("newStudentEmail").value;
+  const loader = document.getElementById("overlayLoader");
 
   if (name === "" || email === "") {
     alert("Enter all details");
     return;
   }
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8",
-    },
-    body: JSON.stringify({
-      action: "createStudent",
-      name: name,
-      email: email,
-    }),
-  });
+  if (loader) loader.classList.remove("hidden");
 
-  const data = await response.json();
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: JSON.stringify({
+        action: "createStudent",
+        name: name,
+        email: email,
+      }),
+    });
 
-  if (data.status === "success") {
-    alert("Student Created!\nID: " + data.studentId);
+    const data = await response.json();
+    console.log(data);
+    if (data.status === "success") {
+
+      alert("✅ Student Data Saved Successfully!\nStudent ID: " + data.studentId);
+
+      document.getElementById("newStudentName").value = "";
+      document.getElementById("newStudentEmail").value = "";
+
+    } else {
+      alert("❌ Failed to Save Student");
+    }
+
+  } catch (error) {
+    alert("Server Error: " + error.message);
   }
+
+  if (loader) loader.classList.add("hidden");
+}
+
+//Student Dashboard: Start Exam (placeholder)
+function startExam() {
+  alert("Exam module is not yet implemented.\nPlease contact the administrator.");
+}
+
+//Common logout for student pages
+function logout() {
+  sessionStorage.clear();
+  window.location.href = "index.html";
 }
