@@ -1,225 +1,510 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    /* ================= GLOBAL ================= */
 
-<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* ================= GLOBAL ================= */
+    body {
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e1b4b, #312e81, #1e1b4b);
+      color: white;
+      display: flex;
 
-body{
-  font-family:'Segoe UI',sans-serif;
-  min-height:100vh;
-  background: linear-gradient(135deg,#1e1b4b,#312e81,#1e1b4b);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  color:white;
-}
+    }
 
-/* ================= MAIN CONTAINER ================= */
+    /* ================= SIDEBAR ================= */
 
-.container{
-  width:100%;
-  max-width:1100px;
-  background:rgba(255,255,255,0.07);
-  backdrop-filter:blur(25px);
-  border-radius:25px;
-  padding:40px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
-  animation:fadeIn .6s ease;
-}
+    .sidebar {
 
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(20px);}
-  to{opacity:1;transform:translateY(0);}
-}
+      width: 250px;
+      background: #0f0c35;
+      padding: 30px 20px;
+      position: fixed;
+      height: 100%;
+      left: 0;
+      top: 0;
+      transition: 0.3s;
+      z-index: 1000;
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
 
-h1{
-  text-align:center;
-  margin-bottom:35px;
-  font-weight:600;
-  letter-spacing:1px;
-}
+    }
 
-/* ================= GRID SECTION ================= */
+    .sidebar ul {
+      list-style: none;
+    }
 
-.dashboard-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:20px;
-  margin-bottom:40px;
-}
+    .sidebar li {
 
-.card{
-  background:rgba(255,255,255,0.08);
-  padding:25px;
-  border-radius:18px;
-  text-align:center;
-  cursor:pointer;
-  transition:.3s ease;
-  box-shadow:0 8px 25px rgba(0,0,0,0.4);
-}
+      padding: 14px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.25s;
+      font-size: 15px;
 
-.card:hover{
-  transform:translateY(-5px);
-  box-shadow:0 15px 30px rgba(0,0,0,0.6);
-}
+    }
 
-.card span{
-  font-size:28px;
-  display:block;
-  margin-bottom:10px;
-}
+    .sidebar li:hover {
 
-/* ================= CREATE STUDENT ================= */
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      transform: translateX(6px);
 
-.create-box{
-  background:rgba(255,255,255,0.08);
-  padding:30px;
-  border-radius:20px;
-}
+    }
 
-.create-box h3{
-  margin-bottom:20px;
-}
+    .logout-btn {
 
-input{
-  width:100%;
-  padding:12px 15px;
-  margin:10px 0;
-  border-radius:10px;
-  border:none;
-  outline:none;
-  background:rgba(255,255,255,0.1);
-  color:white;
-}
+      background: linear-gradient(135deg, #ff4d4d, #ff0000);
+      margin-top: 30px;
 
-input::placeholder{
-  color:#ccc;
-}
+    }
 
-button{
-  padding:12px 22px;
-  border:none;
-  border-radius:12px;
-  background:linear-gradient(135deg,#6366f1,#8b5cf6);
-  color:white;
-  font-weight:500;
-  cursor:pointer;
-  transition:.3s ease;
-  margin-top:10px;
-}
+    /* ================= MAIN AREA ================= */
 
-button:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.4);
-}
+    .main {
 
-.logout-btn{
-  margin-top:25px;
-  background:linear-gradient(135deg,#ff4d4d,#ff0000);
-}
+      flex: 1;
+      margin-left: 250px;
+      padding: 30px;
+    }
 
-/* ================= RESPONSIVE ================= */
+    /* ================= TOPBAR ================= */
 
-/* Tablet */
-@media(max-width:992px){
-  .dashboard-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
+    .topbar {
 
-/* Mobile */
-@media(max-width:600px){
-  .container{
-    padding:25px;
-  }
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px;
 
-  .dashboard-grid{
-    grid-template-columns:1fr;
-  }
+    }
 
-  h1{
-    font-size:22px;
-  }
-}
+    .hamburger {
 
-</style>
+      font-size: 26px;
+      cursor: pointer;
+      display: none;
+
+    }
+
+    h2 {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    /* ================= SECTION CARD ================= */
+
+    .section {
+
+      display: none;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 30px;
+      border-radius: 18px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* ================= INPUTS ================= */
+
+    input,
+    select {
+
+      width: 100%;
+      padding: 14px;
+      margin: 12px 0;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.07);
+      color: white;
+      font-size: 15px;
+      transition: 0.2s;
+
+    }
+
+    input::placeholder {
+
+      color: #bbb;
+
+    }
+
+    input:focus,
+    select:focus {
+
+      outline: none;
+      border: 1px solid #8b5cf6;
+      background: rgba(255, 255, 255, 0.1);
+
+    }
+
+    /* ================= BUTTON ================= */
+
+    button {
+
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      cursor: pointer;
+      margin-top: 12px;
+      font-weight: 500;
+      transition: 0.25s;
+
+    }
+
+    button:hover {
+
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+
+    }
+
+    /* ================= SEARCH ================= */
+
+    #searchInput {
+
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+
+    }
+
+    /* ================= QUESTION LIST ================= */
+
+    #questionList {
+
+      margin-top: 20px;
+
+    }
+
+    .questionCard {
+
+      background: rgba(255, 255, 255, 0.06);
+      padding: 18px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: 0.25s;
+
+    }
+
+    .questionCard:hover {
+
+      background: rgba(255, 255, 255, 0.09);
+      transform: translateY(-3px);
+
+    }
+
+    .questionCard p {
+
+      margin: 4px 0;
+
+    }
+
+    .questionCard strong {
+
+      font-size: 15px;
+
+    }
+
+    .questionActions {
+
+      margin-top: 12px;
+
+    }
+
+    .questionActions button {
+
+      margin-right: 10px;
+
+    }
+
+    /* ================= DIVIDER ================= */
+
+    hr {
+
+      border: none;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.15);
+      margin: 18px 0;
+
+    }
+
+    /* ================= LOADER ================= */
+
+    #overlayLoader {
+
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(20, 15, 60, 0.75);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+
+    }
+
+    .spinner {
+
+      width: 55px;
+      height: 55px;
+      border: 6px solid rgba(255, 255, 255, 0.2);
+      border-top: 6px solid #8b5cf6;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+
+    }
+
+    @keyframes spin {
+
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+
+    }
+
+    .hidden {
+
+      display: none !important;
+
+    }
+
+    /* ================= TABLET ================= */
+
+    @media(max-width:992px) {
+
+      .sidebar {
+
+        left: -250px;
+
+      }
+
+      .sidebar.active {
+
+        left: 0;
+
+      }
+
+      .main {
+
+        margin-left: 0;
+
+      }
+
+      .hamburger {
+
+        display: block;
+
+      }
+
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media(max-width:600px) {
+
+      .main {
+
+        padding: 20px;
+
+      }
+
+      input,
+      select {
+
+        font-size: 14px;
+
+      }
+
+      button {
+
+        width: 100%;
+
+      }
+
+    }
+  </style>
+  <link rel="stylesheet" href="style.css">
+
 </head>
 
-<body>
+<body onload="checkAdminAuth()">
 
-<script>
-if (!sessionStorage.getItem("admin")) {
-    alert("Unauthorized Access");
-    window.location.href = "index.html";
-}
-</script>
+  <!-- SIDEBAR -->
 
-<div class="container">
+  <div class="sidebar" id="sidebar">
 
-<h1>🎯 Admin Dashboard</h1>
+    <ul>
 
-<!-- Dashboard Buttons -->
-<div class="dashboard-grid">
+      <li onclick="showSection('uploadSection')">📤 Upload Question</li>
 
-  <div class="card">
-    <span>📤</span>
-    Upload Questions
+      <li onclick="showSection('allQuestionSection')">📋 All Questions</li>
+
+      <li onclick="showSection('studentSection')">👨‍🎓 Create Student</li>
+
+      <li onclick="showSection('durationSection')">⏱ Set Duration</li>
+
+      <li onclick="showSection('leaderboardSection')">🏆 Leaderboard</li>
+
+      <li onclick="logout()" class="logout-btn">🚪 Logout</li>
+
+    </ul>
+
   </div>
 
-  <div class="card">
-    <span>⏱</span>
-    Set Exam Duration
+  <!-- MAIN -->
+
+  <div class="main">
+
+    <div class="topbar">
+      <span class="hamburger" onclick="toggleSidebar()">☰</span>
+      <h2>Admin Dashboard</h2>
+    </div>
+
+    <h4>Total Questions : <span id="questionCount">0</span></h4>
+
+    <!-- ================= UPLOAD QUESTION ================= -->
+
+    <div id="uploadSection" class="section active">
+
+      <h3>Upload Question</h3>
+      <hr style="margin:20px 0">
+
+      <input type="text" id="questionText" placeholder="Enter Question">
+
+      <input type="text" id="optionA" placeholder="Option A">
+
+      <input type="text" id="optionB" placeholder="Option B">
+
+      <input type="text" id="optionC" placeholder="Option C">
+
+      <input type="text" id="optionD" placeholder="Option D">
+
+      <select id="correctAnswer">
+
+        <option value="">Select Correct Answer</option>
+        <option value="A">Option A</option>
+        <option value="B">Option B</option>
+        <option value="C">Option C</option>
+        <option value="D">Option D</option>
+
+      </select>
+
+      <button onclick="saveQuestion()">Save Question</button>
+
+    </div>
+
+    <!-- ================= ALL QUESTIONS ================= -->
+
+    <div id="allQuestionSection" class="section">
+
+      <h3>All Questions</h3>
+
+      <input type="text" id="searchInput" placeholder="Search Question..." onkeyup="searchQuestions()">
+
+      <div id="questionList"></div>
+
+    </div>
+
+    <!-- ================= CREATE STUDENT ================= -->
+
+    <div id="studentSection" class="section">
+
+      <h3>Create Student</h3>
+
+      <input type="text" id="newStudentName" placeholder="Student Name">
+
+      <input type="email" id="newStudentEmail" placeholder="Student Email">
+
+      <button onclick="createStudent()">Create Student</button>
+
+    </div>
+
+    <!-- ================= DURATION ================= -->
+
+    <div id="durationSection" class="section">
+
+      <h3>Set Exam Duration</h3>
+
+      <p>Coming Soon...</p>
+
+    </div>
+
+    <!-- ================= LEADERBOARD ================= -->
+
+    <div id="leaderboardSection" class="section">
+
+      <h3>Leaderboard</h3>
+
+      <p>Coming Soon...</p>
+
+    </div>
+
   </div>
 
-  <div class="card">
-    <span>📊</span>
-    Monitor Attempts
-  </div>
+  <!-- LOADER -->
 
-  <div class="card">
-    <span>🏆</span>
-    View Leaderboard
-  </div>
+  <div id="overlayLoader" class="hidden">
 
-</div>
-
-<!-- Create Student Section -->
-<div class="create-box">
-  <h3>Create Student</h3>
-
-  <input type="text" id="newStudentName" placeholder="Student Name">
-  <input type="email" id="newStudentEmail" placeholder="Student Email">
-  <button onclick="createStudent()">Create Student</button>
-</div>
-
-<button class="logout-btn" onclick="logout()">Logout</button>
-
-</div>
-
-<div id="overlayLoader" class="hidden">
     <div class="spinner"></div>
-</div>
 
-<script src="script.js"></script>
+  </div>
 
-<script>
-function logout(){
-  sessionStorage.clear();
-  window.location.href="index.html";
-}
-</script>
+  <script src="script.js"></script>
+
+  <script>
+
+    function toggleSidebar() {
+
+      document.getElementById("sidebar").classList.toggle("active");
+
+    }
+
+    function showSection(id) {
+
+      document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+
+      document.getElementById(id).classList.add("active");
+
+      if (window.innerWidth <= 992) {
+
+        toggleSidebar();
+
+      }
+
+    }
+
+  </script>
 
 </body>
+
 </html>

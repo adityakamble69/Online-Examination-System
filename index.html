@@ -296,33 +296,8 @@
         <div class="spinner"></div>
     </div>
 
-    <script>
-
-        function showStudent() {
-            hideAll();
-            document.getElementById("studentLogin").classList.remove("hidden");
-        }
-
-        function showAdmin() {
-            hideAll();
-            document.getElementById("adminLogin").classList.remove("hidden");
-        }
-
-        function goToSetPassword() {
-            window.location.href = "setpassword.html";
-        }
-
-        function goBack() {
-            hideAll();
-            document.getElementById("roleSelection").classList.remove("hidden");
-        }
-
-        function hideAll() {
-            document.getElementById("roleSelection").classList.add("hidden");
-            document.getElementById("studentLogin").classList.add("hidden");
-            document.getElementById("adminLogin").classList.add("hidden");
-        }
-    </script>
+    <div class="theme-toggle">
+</div>
     <script src="script.js"></script>
 </body>
 
